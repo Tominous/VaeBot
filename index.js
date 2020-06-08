@@ -21,15 +21,15 @@ exports.NodeOpus = require('node-opus');
 exports.Exec = require('child_process').exec;
 const YtInfoObj = require('youtube-node');
 exports.Translate = require('google-translate')(Auth.translateKey);
-// const { TranslationServiceClient } = require('@google-cloud/translate').v3beta1;
+ const { TranslationServiceClient } = require('@google-cloud/translate').v3beta1;
 exports.MySQL = require('mysql');
 exports.NodeUtil = require('util');
 exports.Hepburn = require('hepburn');
-// exports.YoutubeSearch = require('youtube-search');
+ exports.YoutubeSearch = require('youtube-search');
 
 exports.YtInfo = new YtInfoObj();
 exports.TrelloHandler = new TrelloObj(Auth.trelloKey, Auth.trelloToken);
-// exports.TranslateClient = new TranslationServiceClient();
+ exports.TranslateClient = new TranslationServiceClient();
 
 exports.linkGuilds = [['417110408088780801', '309785618932563968']];
 
@@ -55,16 +55,16 @@ global.Cmds = require('./core/ManageCommands.js');
 global.Events = require('./core/ManageEvents.js');
 global.Discord = require('discord.js');
 
-/* Discord.BaseGuildMember = Discord.GuildMember;
+ Discord.BaseGuildMember = Discord.GuildMember;
 
 Discord.NewGuildMember = class extends Discord.BaseGuildMember {
     constructor(guild, data) {
         super(guild, data);
         Util.mergeUser(this);
     }
-}; */
+}; 
 
-/* class ExtendableProxy {
+ class ExtendableProxy {
     constructor(guild, data) {
         const OriginalGuildMember = new Discord.BaseGuildMember(guild, data);
 
@@ -82,14 +82,14 @@ Discord.NewGuildMember = class extends Discord.BaseGuildMember {
 
 Discord.GuildMember = class extends ExtendableProxy {}; */
 
-/* Discord.GuildMember.prototype.getProp = function (p) {
+ Discord.GuildMember.prototype.getProp = function (p) {
     if (this[p] != null) return this[p];
     return this.user[p];
 };
 
 Discord.User.prototype.getProp = function (p) {
     return this[p];
-}; */
+}; 
 
 exports.YtInfo.setKey(Auth.youtube);
 
@@ -149,14 +149,14 @@ function setBriefing() {
         if (t3 < 0) t3 += dayMS;
 
         const channel = client.channels.get('168744024931434498');
-        // const guild = channel.guild;
+         const guild = channel.guild;
 
         Util.log(`Set daily briefing for ${t3 * msToHours} hours`);
 
         setTimeout(() => {
-            // const upField = { name: '​', value: '​', inline: false };
+             const upField = { name: '​', value: '​', inline: false };
             const muteField = { name: 'Mutes', value: 'No mutes today', inline: false };
-            // var rightField = {name: "​", value: "​"}
+             var rightField = {name: "​", value: "​"}
             const kickField = { name: 'Kicks', value: 'No kicks today', inline: false };
             const banField = { name: 'Bans', value: 'No bans today', inline: false };
 
@@ -177,9 +177,9 @@ function setBriefing() {
                 for (let i = 0; i < exports.dailyMutes.length; i++) {
                     const nowData = exports.dailyMutes[i];
                     const userId = nowData[0];
-                    // const userName = nowData[1];
+                     const userName = nowData[1];
                     const userReason = nowData[2];
-                    // const userTime = nowData[3];
+                     const userTime = nowData[3];
                     const targMention = `<@${userId}>`;
                     let reasonStr = '';
                     if (userReason != null && userReason.trim().length > 0) {
@@ -199,7 +199,7 @@ function setBriefing() {
                 for (let i = 0; i < exports.dailyKicks.length; i++) {
                     const nowData = exports.dailyKicks[i];
                     const userId = nowData[0];
-                    // const userName = nowData[1];
+                     const userName = nowData[1];
                     const userReason = nowData[2];
                     const targMention = `<@${userId}>`;
                     let reasonStr = '';
@@ -220,7 +220,7 @@ function setBriefing() {
                 for (let i = 0; i < exports.dailyBans.length; i++) {
                     const nowData = exports.dailyBans[i];
                     const userId = nowData[0];
-                    // const userName = nowData[1];
+                     const userName = nowData[1];
                     const userReason = nowData[2];
                     const targMention = `<@${userId}>`;
                     let reasonStr = '';
@@ -268,7 +268,7 @@ exports.globalBan = {
 
 function securityFunc(guild, member, sendRoleParam) {
     const guildName = guild.name;
-    // const guildId = guild.id;
+     const guildId = guild.id;
 
     const memberId = member.id;
     const memberName = Util.getFullName(member);
@@ -317,8 +317,8 @@ function setupSecurityVeil() {
     if (!veilBuyer) return Util.logc('SecureVeil1', '[ERROR_VP] Veil Buyer role not found!');
     const newBuyer = guild.roles.find('name', 'Vashta-Owner');
     if (!newBuyer) return Util.logc('SecureVeil1', '[ERROR_VP] New Buyer role not found!');
-    // const guildId = guild.id;
-    // const guildName = guild.name;
+     const guildId = guild.id;
+     const guildName = guild.name;
 
     Util.logc('SecureVeil1', `Setting up auto-kick for ${guild.name} (${guild.members.size} members)`);
 
@@ -377,9 +377,9 @@ exports.secure = async function () {
     Util.log('> Security setup complete');
 };
 
-/* function notifyOn(channel) { // Not if the last message was a reminder...
-    // Util.sendDescEmbed(channel, 'Reminder', 'You can gain access to the #anime channel by sending a message saying: `;toggle anime`', null, null, colBlue);
-} */
+ function notifyOn(channel) { // Not if the last message was a reminder...
+     Util.sendDescEmbed(channel, 'Reminder', 'You can gain access to the #anime channel by sending a message saying: `;toggle anime`', null, null, colBlue);
+} 
 
 // //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -405,11 +405,11 @@ client.on('ready', async () => {
 
             const allMembers = newGuild.members;
 
-            // allMembers.forEach(m => Util.mergeUser(m));
+             allMembers.forEach(m => Util.mergeUser(m));
             allMembers.forEach(Util.mergeUser);
             Util.logc('InitProxy', `Added proxies to the ${allMembers.size} members of ${newGuild.name}`);
 
-            // Music2.initGuild(newGuild);
+             Music2.initGuild(newGuild);
 
             if (newGuild.id == '477270527535480834') dbGuilds.push(newGuild);
         }),
@@ -417,7 +417,7 @@ client.on('ready', async () => {
         .then(() => Util.log('> Cached all guild members'))
         .catch(e => Util.log('> Error while caching guild members:', e));
 
-    // Util.log('> Cached all guild members!');
+     Util.log('> Cached all guild members!');
 
     await Data.connectInitial(dbGuilds);
 });
@@ -479,19 +479,19 @@ If you don't get unbanned for some reason (and you aren't trying to raid us), pl
 
 As a reminder, here's our server invite for if you're a real human and will be joining us later, or if you're a raider and want to try again: https://discord.gg/bvS5gwY`;
 
-// exports.checkRaidMember = function (member, joinStamp, defaultChannel) {
-//     const createdAt = +member.user.createdAt;
-//     const memberName = `${member.user.username}#${member.user.discriminator} (${member.id})`;
+ exports.checkRaidMember = function (member, joinStamp, defaultChannel) {
+     const createdAt = +member.user.createdAt;
+     const memberName = `${member.user.username}#${member.user.discriminator} (${member.id})`;
 
-//     if (createdAt == null || joinStamp - createdAt < youngAccountTime) {
-//         raidBan(member, defaultChannel, `Auto-banned detected raider: ${memberName}`);
-//     } else {
-//         member
-//             .send(raidMsgPossible)
-//             .then(() => raidBan(member, defaultChannel, `Auto-removed possible raider: ${memberName}`))
-//             .catch(() => raidBan(member, defaultChannel, `Auto-removed possible raider: ${memberName}`));
-//     }
-// };
+     if (createdAt == null || joinStamp - createdAt < youngAccountTime) {
+         raidBan(member, defaultChannel, `Auto-banned detected raider: ${memberName}`);
+     } else {
+         member
+             .send(raidMsgPossible)
+             .then(() => raidBan(member, defaultChannel, `Auto-removed possible raider: ${memberName}`))
+             .catch(() => raidBan(member, defaultChannel, `Auto-removed possible raider: ${memberName}`));
+     }
+ };
 
 exports.checkRaidMember = function (member, joinStamp, defaultChannel, sendRole) {
     const createdAt = +member.user.createdAt;
@@ -628,18 +628,18 @@ client.on('guildMemberAdd', (member) => {
 
     // Restore buyer role
 
-    // if (guild.id == '477270527535480834') {
-    //     Data.query(`SELECT * FROM Users WHERE Disabled IS NULL AND DiscordId=${member.id};`, null, Data.connectionVeil).then((whitelistData) => {
-    //         if (whitelistData.length > 0) {
-    //             const buyerRole = Util.getRole('Vashta-Owner', guild);
-    //             if (buyerRole) {
-    //                 member.addRole(buyerRole)
-    //                     .catch(Util.logErr);
-    //                 Util.logc(member.id, `Assigned Buyer to new buyer ${memberName} who just joined ${guildName}`);
-    //             }
-    //         }
-    //     });
-    // }
+     if (guild.id == '477270527535480834') {
+         Data.query(`SELECT * FROM Users WHERE Disabled IS NULL AND DiscordId=${member.id};`, null, Data.connectionVeil).then((whitelistData) => {
+             if (whitelistData.length > 0) {
+                 const buyerRole = Util.getRole('Vashta-Owner', guild);
+                 if (buyerRole) {
+                     member.addRole(buyerRole)
+                         .catch(Util.logErr);
+                     Util.logc(member.id, `Assigned Buyer to new buyer ${memberName} who just joined ${guildName}`);
+                 }
+             }
+         });
+     }
 
     // GlobalBan
 
@@ -704,19 +704,19 @@ client.on('guildMemberUpdate', (oldMember, member) => {
             }
 
             if (nowRole.name === 'Vashta-Owner' && guild.id === '477270527535480834') {
-                /* const message = 'Please join the Veil Buyers Discord:\n\nhttps://discord.gg/PRq6fcg\n\nThis is very important, thank you.';
+                 const message = 'Please join the Veil Buyers Discord:\n\nhttps://discord.gg/PRq6fcg\n\nThis is very important, thank you.';
                 const title = 'Congratulations on your purchase of Veil';
                 const footer = Util.makeEmbedFooter('AutoMessage');
 
-                Util.sendDescEmbed(member, title, message, footer, null, colBlue); */
+                Util.sendDescEmbed(member, title, message, footer, null, colBlue); 
             }
 
-            // if (
-            //     (nowRole.name.includes('Mod') && member.id == '202660584330625024') ||
-            //     (nowRole.name.includes('Special') && member.id == '119203482598244356')
-            // ) {
-            //     member.removeRole(nowRole).catch(console.error);
-            // }
+             if (
+                 (nowRole.name.includes('Mod') && member.id == '202660584330625024') ||
+                 (nowRole.name.includes('Special') && member.id == '119203482598244356')
+             ) {
+                 member.removeRole(nowRole).catch(console.error);
+             }
 
             const isMuted = Admin.checkMuted(guild, member.id);
             if (nowRole.name === 'SendMessages' && isMuted) {
@@ -750,8 +750,8 @@ client.on('guildMemberUpdate', (oldMember, member) => {
         rolesRemoved.forEach((nowRole) => {
             const isMuted = Admin.checkMuted(guild, member.id);
             if (nowRole.name === 'SendMessages' && !isMuted) {
-                // member.addRole(nowRole).catch(console.error);
-                // Util.log(`Force re-unmuted ${Util.getName(member)} (${member.id})`);
+                 member.addRole(nowRole).catch(console.error);
+                 Util.log(`Force re-unmuted ${Util.getName(member)} (${member.id})`);
             } else {
                 const sendLogData = [
                     'Role Removed',
@@ -792,7 +792,7 @@ client.on('guildMemberUpdate', (oldMember, member) => {
     }
 });
 
-/* client.on('userUpdate', (oldUser, user) => {
+ client.on('userUpdate', (oldUser, user) => {
     const oldUsername = oldUser.username;
     const newUsername = user.username;
 
@@ -809,7 +809,7 @@ client.on('guildMemberUpdate', (oldMember, member) => {
         ];
         Util.sendLog(sendLogData, colUser);
     }
-}); */
+}); 
 
 client.on('messageUpdate', (oldMsgObj, newMsgObj) => {
     if (newMsgObj == null) return;
@@ -820,8 +820,8 @@ client.on('messageUpdate', (oldMsgObj, newMsgObj) => {
     const author = newMsgObj.author;
     const content = newMsgObj.content;
     const contentLower = content.toLowerCase();
-    // const isStaff = author.id == vaebId;
-    // const msgId = newMsgObj.id;
+     const isStaff = author.id == vaebId;
+     const msgId = newMsgObj.id;
 
     const oldContent = oldMsgObj.content;
 
@@ -870,7 +870,7 @@ client.on('voiceStateUpdate', (oldMember, member) => {
     const oldChannelId = oldChannel ? oldChannel.id : null;
     const newChannelId = newChannel ? newChannel.id : null;
 
-    // const guild = member.guild;
+     const guild = member.guild;
 
     if (member.id === selfId) {
         if (member.serverMute) {
@@ -921,7 +921,7 @@ const Actions = {
 
 */
 
-/* function chooseRelevantEntry(entries, options) {
+ function chooseRelevantEntry(entries, options) {
     if (options.action == null || options.time == null) {
         Util.log(options);
         Util.log('Options did not contain necessary properties');
@@ -942,7 +942,7 @@ const Actions = {
     });
 
     return strongest[1];
-} */
+} 
 
 client.on('messageDelete', (msgObj) => {
     if (msgObj == null) return;
@@ -952,15 +952,15 @@ client.on('messageDelete', (msgObj) => {
     const author = msgObj.author;
     const content = msgObj.content;
 
-    // const eventTime = +new Date();
+     const eventTime = +new Date();
 
-    // const evTime = +new Date();
+     const evTime = +new Date();
 
-    // const contentLower = content.toLowerCase();
-    // const isStaff = author.id == vaebId;
-    // const msgId = msgObj.id;
+     const contentLower = content.toLowerCase();
+     const isStaff = author.id == vaebId;
+     const msgId = msgObj.id;
 
-    // if (author.id === vaebId) return;
+     if (author.id === vaebId) return;
 
     Events.emit(guild, 'MessageDelete', member, channel, content);
 
@@ -968,25 +968,25 @@ client.on('messageDelete', (msgObj) => {
         const attachmentLinks = [];
         msgObj.attachments.forEach(obj => attachmentLinks.push(obj.url));
 
-        // Util.getAuditLog(guild, 'MESSAGE_DELETE', { target: author }).then((auditEntry) => { // WILL FIX LATER
-        //     auditEntry = auditEntry || {};
-        //     const executor = auditEntry.executor;
-        //     // const sinceAuditLog = executor ? eventTime - auditEntry.createdTimestamp : 0;
+         Util.getAuditLog(guild, 'MESSAGE_DELETE', { target: author }).then((auditEntry) => { // WILL FIX LATER
+             auditEntry = auditEntry || {};
+             const executor = auditEntry.executor;
+              const sinceAuditLog = executor ? eventTime - auditEntry.createdTimestamp : 0;
 
-        //     // if (executor) Util.log(`[MESSAGE_DELETE] Elapsed since audit log: ${sinceAuditLog}`);
+              if (executor) Util.log(`[MESSAGE_DELETE] Elapsed since audit log: ${sinceAuditLog}`);
 
-        //     const sendLogData = [
-        //         'Message Deleted',
-        //         guild,
-        //         author,
-        //         { name: 'User', value: Util.resolveMention(author) },
-        //         executor ? { name: 'Possible Moderator', value: Util.resolveMention(executor) } : {},
-        //         { name: 'Channel Name', value: channel.toString() },
-        //         { name: 'Message', value: content },
-        //         { name: 'Attachments', value: attachmentLinks.join('\n') },
-        //     ];
-        //     Util.sendLog(sendLogData, colMessage);
-        // });
+             const sendLogData = [
+                 'Message Deleted',
+                 guild,
+                 author,
+                 { name: 'User', value: Util.resolveMention(author) },
+                 executor ? { name: 'Possible Moderator', value: Util.resolveMention(executor) } : {},
+                 { name: 'Channel Name', value: channel.toString() },
+                 { name: 'Message', value: content },
+                 { name: 'Attachments', value: attachmentLinks.join('\n') },
+             ];
+             Util.sendLog(sendLogData, colMessage);
+         });
 
         const sendLogData = [
             'Message Deleted',
@@ -999,9 +999,9 @@ client.on('messageDelete', (msgObj) => {
         ];
         Util.sendLog(sendLogData, colMessage);
 
-        /* setTimeout(() => {
+         setTimeout(() => {
             guild.fetchAuditLogs({
-                // user: member,
+                 user: member,
                 type: 72,
             })
             .then((logs) => {
@@ -1034,7 +1034,7 @@ client.on('messageDelete', (msgObj) => {
                 Util.log(error);
                 Util.log('[MD] Failed to get audit log data');
             });
-        }, 5000); */
+        }, 5000); 
     }
 });
 
@@ -1048,55 +1048,55 @@ const muteGrad = 8.5; // 9
 const waitTime = 5.5;
 const endAlert = 40;
 
-/* const replaceAll = function (str, search, replacement) {
+ const replaceAll = function (str, search, replacement) {
     return str.split(search).join(replacement);
 };
 let contentLower = 'lol <qe23> tege <> <e321z> dz';
 contentLower = contentLower.replace(/<[^ ]*?[:#@][^ ]*?>/gm, '');
-// contentLower = replaceAll(contentLower, ' ', '');
-Util.log(contentLower); */
+ contentLower = replaceAll(contentLower, ' ', '');
+Util.log(contentLower); 
 
-// exports.runFuncs.push((msgObj, speaker, channel, guild) => { // More sensitive
-//     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true || speaker.id === vaebId) return;
+ exports.runFuncs.push((msgObj, speaker, channel, guild) => { // More sensitive
+     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true || speaker.id === vaebId) return;
 
-//     let contentLower = msgObj.content.toLowerCase();
-//     contentLower = contentLower.replace(/<[^ ]*?[:#@][^ ]*?>/gm, '');
-//     contentLower = Util.replaceAll(contentLower, ' ', '');
-//     contentLower = Util.replaceAll(contentLower, 'one', '1');
-//     contentLower = Util.replaceAll(contentLower, 'won', '1');
-//     contentLower = Util.replaceAll(contentLower, 'uno', '1');
-//     contentLower = Util.replaceAll(contentLower, 'una', '1');
-//     contentLower = Util.replaceAll(contentLower, 'two', '2');
-//     contentLower = Util.replaceAll(contentLower, 'dose', '2');
-//     contentLower = Util.replaceAll(contentLower, 'dos', '2');
-//     contentLower = Util.replaceAll(contentLower, 'too', '2');
-//     contentLower = Util.replaceAll(contentLower, 'to', '2');
-//     contentLower = Util.replaceAll(contentLower, 'three', '3');
-//     contentLower = Util.replaceAll(contentLower, 'tres', '3');
-//     contentLower = Util.replaceAll(contentLower, 'free', '3');
+     let contentLower = msgObj.content.toLowerCase();
+     contentLower = contentLower.replace(/<[^ ]*?[:#@][^ ]*?>/gm, '');
+     contentLower = Util.replaceAll(contentLower, ' ', '');
+     contentLower = Util.replaceAll(contentLower, 'one', '1');
+     contentLower = Util.replaceAll(contentLower, 'won', '1');
+     contentLower = Util.replaceAll(contentLower, 'uno', '1');
+     contentLower = Util.replaceAll(contentLower, 'una', '1');
+     contentLower = Util.replaceAll(contentLower, 'two', '2');
+     contentLower = Util.replaceAll(contentLower, 'dose', '2');
+     contentLower = Util.replaceAll(contentLower, 'dos', '2');
+     contentLower = Util.replaceAll(contentLower, 'too', '2');
+     contentLower = Util.replaceAll(contentLower, 'to', '2');
+     contentLower = Util.replaceAll(contentLower, 'three', '3');
+     contentLower = Util.replaceAll(contentLower, 'tres', '3');
+     contentLower = Util.replaceAll(contentLower, 'free', '3');
 
-//     let triggered = false;
+     let triggered = false;
 
-//     if (contentLower === '3') {
-//         triggered = true;
-//     } else {
-//         // const trigger = [/11./g, /12[^8]/g, /13./g, /21./g, /22./g, /23./g, /31./g, /32[^h]/g, /33./g, /muteme/g, /onet.?o/g, /threet.?o/g];
-//         // const trigger = [/[123][123][123]/g, /muteme/g];
-//         const trigger = [/[123][^\d]?[^\d]?[123][^\d]?[^\d]?[123]/g, /[123][123]\d/g, /muteme/g];
-//         for (let i = 0; i < trigger.length; i++) {
-//             if (trigger[i].test(contentLower)) {
-//                 triggered = true;
-//                 break;
-//             }
-//         }
-//     }
+     if (contentLower === '3') {
+         triggered = true;
+     } else {
+          const trigger = [/11./g, /12[^8]/g, /13./g, /21./g, /22./g, /23./g, /31./g, /32[^h]/g, /33./g, /muteme/g, /onet.?o/g, /threet.?o/g];
+          const trigger = [/[123][123][123]/g, /muteme/g];
+         const trigger = [/[123][^\d]?[^\d]?[123][^\d]?[^\d]?[123]/g, /[123][123]\d/g, /muteme/g];
+         for (let i = 0; i < trigger.length; i++) {
+             if (trigger[i].test(contentLower)) {
+                 triggered = true;
+                 break;
+             }
+         }
+     }
 
-//     if (triggered) {
-//         Admin.addMute(guild, channel, speaker, 'System', { 'reason': 'Muted Themself' });
-//     }
-// });
+     if (triggered) {
+         Admin.addMute(guild, channel, speaker, 'System', { 'reason': 'Muted Themself' });
+     }
+ });
 
-/* exports.runFuncs.push((msgObj, speaker, channel, guild) => {
+ exports.runFuncs.push((msgObj, speaker, channel, guild) => {
     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true || speaker.id === vaebId || speaker.id === guild.owner.id) return;
 
     let contentLower = msgObj.content.toLowerCase();
@@ -1129,39 +1129,39 @@ Util.log(contentLower); */
     if (triggered) {
         Admin.addBan(guild, channel, speaker, 'System', { time: null, reason: 'Banned Themself', temp: true });
     }
-}); */
+}); 
 
-// exports.runFuncs.push((msgObj, speaker, channel, guild) => {
-//     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true || speaker.id === vaebId) return;
+ exports.runFuncs.push((msgObj, speaker, channel, guild) => {
+     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true || speaker.id === vaebId) return;
 
-//     let contentLower = msgObj.content.toLowerCase();
-//     contentLower = contentLower.replace(/\s/g, '');
-//     contentLower = contentLower.replace(/which/g, 'what');
-//     contentLower = contentLower.replace(/great/g, 'best');
-//     contentLower = contentLower.replace(/finest/g, 'best');
-//     contentLower = contentLower.replace(/perfect/g, 'best');
-//     contentLower = contentLower.replace(/top/g, 'best');
-//     contentLower = contentLower.replace(/hack/g, 'exploit');
-//     contentLower = contentLower.replace(/h\Sx/g, 'exploit');
-//     contentLower = contentLower.replace(/le?v\S?l(?:\d|s|f)/g, 'exploit');
+     let contentLower = msgObj.content.toLowerCase();
+     contentLower = contentLower.replace(/\s/g, '');
+     contentLower = contentLower.replace(/which/g, 'what');
+     contentLower = contentLower.replace(/great/g, 'best');
+     contentLower = contentLower.replace(/finest/g, 'best');
+     contentLower = contentLower.replace(/perfect/g, 'best');
+     contentLower = contentLower.replace(/top/g, 'best');
+     contentLower = contentLower.replace(/hack/g, 'exploit');
+     contentLower = contentLower.replace(/h\Sx/g, 'exploit');
+     contentLower = contentLower.replace(/le?v\S?l(?:\d|s|f)/g, 'exploit');
 
-//     let triggered = 0;
+     let triggered = 0;
 
-//     const trigger = [/wh?[au]t/g, /b\S?st/g, /explo\S?t/g];
-//     for (let i = 0; i < trigger.length; i++) {
-//         if (trigger[i].test(contentLower)) triggered++;
-//     }
+     const trigger = [/wh?[au]t/g, /b\S?st/g, /explo\S?t/g];
+     for (let i = 0; i < trigger.length; i++) {
+         if (trigger[i].test(contentLower)) triggered++;
+     }
 
-//     if (triggered == trigger.length) {
-//         Admin.addMute(guild, channel, speaker, 'System', { time: 1800000, reason: '[Auto-Mute] Asking stupid questions' });
-//     }
-// });
+     if (triggered == trigger.length) {
+         Admin.addMute(guild, channel, speaker, 'System', { time: 1800000, reason: '[Auto-Mute] Asking stupid questions' });
+     }
+ });
 
 exports.runFuncs.push((msgObj, speaker, channel, guild) => {
     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true) return;
 
     let contentLower = msgObj.content.toLowerCase();
-    // contentLower = contentLower.replace(/\s/g, '');
+     contentLower = contentLower.replace(/\s/g, '');
     contentLower = contentLower.replace(/w[au@]t/g, 'what');
     contentLower = contentLower.replace(/h[o0]w/g, 'what');
     contentLower = contentLower.replace(/my/g, 'what');
@@ -1186,56 +1186,56 @@ exports.runFuncs.push((msgObj, speaker, channel, guild) => {
 });
 
 index.bannedLetters = [];
-// index.bannedLetters = ['f', '𝓕', 'ғ', 'ƒ', '🇫', 'ꎇ', '₣', '𝐅', '🄵', '🅵', '𝔽', 'ｆ', 'ꜰ', 'ꊰ', '𝐟', '𝖋', 'Ⓕ', 'ʄ', '𝓯', '𝕗', 'Ŧ', '下', '𝙁', '千', '⒡', 'ɟ', '℉', 'ｷ', '𝔣', '𝐹', 'Ⅎ', 'ꟻ', 'ᶠ', '𝙵', 'ℱ', '𝔉', '𝗳', 'Ֆ', 'φ', 'এ', 'ফ', 'ᶂ', 'ᵮ', 'Ꝭ', 'ꞧ', '🅕', 'ꞙ', 'ꬵ', 'ꝭ', 'ꝷ', 'ﬀ', 'ꭍ', 'ﬁ', 'Ḟ', 'דּ', '~~r~~', '~~t~~'];
+ index.bannedLetters = ['f', '𝓕', 'ғ', 'ƒ', '🇫', 'ꎇ', '₣', '𝐅', '🄵', '🅵', '𝔽', 'ｆ', 'ꜰ', 'ꊰ', '𝐟', '𝖋', 'Ⓕ', 'ʄ', '𝓯', '𝕗', 'Ŧ', '下', '𝙁', '千', '⒡', 'ɟ', '℉', 'ｷ', '𝔣', '𝐹', 'Ⅎ', 'ꟻ', 'ᶠ', '𝙵', 'ℱ', '𝔉', '𝗳', 'Ֆ', 'φ', 'এ', 'ফ', 'ᶂ', 'ᵮ', 'Ꝭ', 'ꞧ', '🅕', 'ꞙ', 'ꬵ', 'ꝭ', 'ꝷ', 'ﬀ', 'ꭍ', 'ﬁ', 'Ḟ', 'דּ', '~~r~~', '~~t~~'];
 
-// index.bannedLetters.push('ᖴ');
+ index.bannedLetters.push('ᖴ');
 
-// index.runFuncs.push((msgObj, speaker, channel, guild) => {
-//     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true || guild.id !== '477270527535480834' || Util.hasRoleName(speaker, 'owner')) return;
+ index.runFuncs.push((msgObj, speaker, channel, guild) => {
+     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true || guild.id !== '477270527535480834' || Util.hasRoleName(speaker, 'owner')) return;
 
-//     const contentLower = msgObj.content.toLowerCase();
+     const contentLower = msgObj.content.toLowerCase();
 
-//     for (let i = 0; i < index.bannedLetters.length; i++) {
-//         if (contentLower.includes(index.bannedLetters[i].toLowerCase()) || /~~.*[^\x00-\x7F].*~~/.test(contentLower)) {
-//             msgObj.delete()
-//                 .then(() => {
-//                     // Util.print(speaker.user, 'Notice: Your message has been deleted because the letter `F` is now banned.');
-//                 })
-//                 .catch(console.error);
-//             Util.print(channel, `${speaker} Your message has been deleted because the letter \`F\` is now banned.`);
-//             break;
-//         }
-//     }
-// });
+     for (let i = 0; i < index.bannedLetters.length; i++) {
+         if (contentLower.includes(index.bannedLetters[i].toLowerCase()) || /~~.*[^\x00-\x7F].*~~/.test(contentLower)) {
+             msgObj.delete()
+                 .then(() => {
+                      Util.print(speaker.user, 'Notice: Your message has been deleted because the letter `F` is now banned.');
+                 })
+                 .catch(console.error);
+             Util.print(channel, `${speaker} Your message has been deleted because the letter \`F\` is now banned.`);
+             break;
+         }
+     }
+ });
 
-// index.runFuncs.push((msgObj, speaker, channel, guild) => {
-//     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true || guild.id !== '477270527535480834' || Util.hasRoleName(speaker, 'owner')) return;
+ index.runFuncs.push((msgObj, speaker, channel, guild) => {
+     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true || guild.id !== '477270527535480834' || Util.hasRoleName(speaker, 'owner')) return;
 
-//     const contentLower = msgObj.content.toLowerCase();
+     const contentLower = msgObj.content.toLowerCase();
 
-//     for (let i = 0; i < index.bannedLetters.length; i++) {
-//         if (/[^\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~vaeb\s0123456789]/i.test(contentLower)) {
-//             msgObj.delete()
-//                 .catch(console.error);
-//             Util.print(channel, `${speaker} Your message has been deleted because all letters besides \`V\`, \`A\`, \`E\` and \`B\` are now banned.`);
-//             break;
-//         }
-//     }
-// });
+     for (let i = 0; i < index.bannedLetters.length; i++) {
+         if (/[^\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~vaeb\s0123456789]/i.test(contentLower)) {
+             msgObj.delete()
+                 .catch(console.error);
+             Util.print(channel, `${speaker} Your message has been deleted because all letters besides \`V\`, \`A\`, \`E\` and \`B\` are now banned.`);
+             break;
+         }
+     }
+ });
 
-// client.on('guildMemberUpdate', (oldMember, member) => {
-//     if (member.guild.id !== '477270527535480834') return;
+ client.on('guildMemberUpdate', (oldMember, member) => {
+     if (member.guild.id !== '477270527535480834') return;
 
-//     const nickLower = member.nickname ? member.nickname.toLowerCase() : '';
-//     const userLower = member.user.username;
+     const nickLower = member.nickname ? member.nickname.toLowerCase() : '';
+     const userLower = member.user.username;
 
-//     for (let i = 0; i < index.bannedLetters.length; i++) {
-//         if (nickLower.includes(index.bannedLetters[i].toLowerCase()) || (nickLower === '' && userLower.includes(index.bannedLetters[i].toLowerCase()))) {
-//             member.setNickname('nope').catch(console.error);
-//             break;
-//         }
-//     }
-// });
+     for (let i = 0; i < index.bannedLetters.length; i++) {
+         if (nickLower.includes(index.bannedLetters[i].toLowerCase()) || (nickLower === '' && userLower.includes(index.bannedLetters[i].toLowerCase()))) {
+             member.setNickname('nope').catch(console.error);
+             break;
+         }
+     }
+ });
 
 index.runFuncs.push((msgObj, speaker, channel, guild) => {
     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true) return;
@@ -1252,7 +1252,7 @@ exports.runFuncs.push((msgObj, speaker, channel, guild) => {
     if (guild == null || msgObj == null || speaker == null || speaker.user.bot === true) return;
 
     let contentLower = msgObj.content.toLowerCase();
-    // contentLower = contentLower.replace(/\s/g, '');
+     contentLower = contentLower.replace(/\s/g, '');
     contentLower = contentLower.replace(/w[au@]t/g, 'what');
     contentLower = contentLower.replace(/h[o0]w/g, 'what');
     contentLower = contentLower.replace(/my/g, 'what');
@@ -1272,10 +1272,10 @@ exports.runFuncs.push((msgObj, speaker, channel, guild) => {
     }
 
     if (triggered == trigger.length) {
-        // Util.sendDescEmbed(channel, Util.getMostName(speaker), 'The invite link for Veil Discord is https://discord.gg/aVvcjDS', null, null, colGreen);
+         Util.sendDescEmbed(channel, Util.getMostName(speaker), 'The invite link for Veil Discord is https://discord.gg/aVvcjDS', null, null, colGreen);
     } else {
         if (/[i1]n{1,2}v{1,2}[i1]t{1,2}[e3]\s*l[i1]nk/g.test(contentLower)) {
-            // Util.sendDescEmbed(channel, Util.getMostName(speaker), 'The invite link for Veil Discord is https://discord.gg/aVvcjDS', null, null, colGreen);
+             Util.sendDescEmbed(channel, Util.getMostName(speaker), 'The invite link for Veil Discord is https://discord.gg/aVvcjDS', null, null, colGreen);
         }
     }
 });
@@ -1297,7 +1297,7 @@ exports.runFuncs.push((msgObj, speaker, channel, guild, isEdit) => {
 
     if (contentLower == '!buy') return;
 
-    // contentLower = contentLower.replace(/\s/g, '');
+     contentLower = contentLower.replace(/\s/g, '');
     contentLower = contentLower.replace(/\bthe /g, '');
     contentLower = contentLower.replace(/\bit\b/g, 'veil');
     contentLower = contentLower.replace(/\bthis\b/g, 'veil');
@@ -1309,7 +1309,7 @@ exports.runFuncs.push((msgObj, speaker, channel, guild, isEdit) => {
     contentLower = contentLower.replace(/le?v\S?l.?(?:\d|s|f)/g, 'veil');
     contentLower = contentLower.replace(/explo\S?t\b/g, 'veil');
     contentLower = contentLower.replace(/\bpay\b/g, 'buy');
-    // contentLower = contentLower.replace(/get/g, 'buy');
+     contentLower = contentLower.replace(/get/g, 'buy');
     contentLower = contentLower.replace(/get veil/g, 'buy');
     contentLower = contentLower.replace(/purchas.?/g, 'buy');
 
@@ -1331,7 +1331,7 @@ exports.runFuncs.push((msgObj, speaker, channel, guild, isEdit) => {
     }
 
     if (triggered) {
-        // Util.sendDescEmbed(channel, 'How To Buy', 'To buy veil send a message saying !buy', null, null, colGreen);
+         Util.sendDescEmbed(channel, 'How To Buy', 'To buy veil send a message saying !buy', null, null, colGreen);
     }
 });
 
@@ -1355,7 +1355,7 @@ function antiScam(msgObj, contentLower, speaker, channel, guild, isEdit, origina
     contentLower = contentLower.replace(/www\./g, '');
     contentLower = contentLower.replace(/[^a-z .]+/g, '');
     contentLower = contentLower.replace(/dot/g, '.');
-    // contentLower = contentLower.replace(/(.)\1+/g, '$1');
+     contentLower = contentLower.replace(/(.)\1+/g, '$1');
     contentLower = contentLower.replace(/ +/g, '');
 
     if (original) {
@@ -1379,9 +1379,9 @@ function antiScam(msgObj, contentLower, speaker, channel, guild, isEdit, origina
         {
             regex: /bit\.ly/, // bit.ly
             allow: [],
-            /* }, {
+             }, {
             regex: /goo\.gl/, // goo.gl
-            allow: [], */
+            allow: [], 
         },
         {
             regex: /tinyurl\.com/, // tinyurl.com
@@ -1444,8 +1444,8 @@ exports.runFuncs.push((msgObj, speaker, channel, guild) => {
     contentLower = contentLower.replace(/www\./g, ''); // www. removed
     contentLower = contentLower.replace(/[^a-z ./]+/g, ''); // Any characters that aren't letters, spaces or dots are removed
     contentLower = contentLower.replace(/dot/g, '.');
-    // contentLower = contentLower.replace(/(.)\1+/g, '$1');
-    // contentLower = contentLower.replace(/ +/g, ''); // All spaces removed
+     contentLower = contentLower.replace(/(.)\1+/g, '$1');
+     contentLower = contentLower.replace(/ +/g, ''); // All spaces removed
 
     let triggered = false;
 
@@ -1489,12 +1489,12 @@ const recentMessages = []; // Messages sent in the last recentMs milliseconds
 const numSimilarForSpam = 3;
 const spamMessages = []; // Messages detected as spam in recentMessages stay here for limited period of time
 
-// const msgStatus = {}; // Coming soon?
+ const msgStatus = {}; // Coming soon?
 
-/* let lastTimeout = {
+ let lastTimeout = {
     timeout: null,
     stamp: 0,
-}; */
+}; 
 
 exports.crabRave = {
     goneGuild: null,
@@ -1514,9 +1514,9 @@ client.on('message', (msgObj) => {
 
     const isRaidMode = guild ? exports.raidMode[guild.id] : false;
 
-    // const presentStamp = +new Date();
+     const presentStamp = +new Date();
 
-    // if (guild.id !== '166601083584643072') return;
+     if (guild.id !== '166601083584643072') return;
 
     if (content.includes('That command is reserved for Fredboat administration')) {
         msgObj.delete();
@@ -1546,13 +1546,13 @@ client.on('message', (msgObj) => {
         }
     }
 
-    /* if (guild != null) {
+     if (guild != null) {
         if (lastTimeout.timeout) clearTimeout(lastTimeout.timeout);
         if (presentStamp - lastTimeout.stamp > 1000 * 60 * 10) { // Hmmm, 10 minutes?
             lastTimeout.timeout = setTimeout(notifyOn, 1000 * 60 * 3, channel); // 3 minutes
             lastTimeout.stamp = presentStamp;
         }
-    } */
+    } 
 
     if (guild != null && contentLower.substr(0, 5) === 'sudo ' && authorId === vaebId) {
         author = Util.getUserById(selfId);
@@ -1676,7 +1676,7 @@ client.on('message', (msgObj) => {
                         break;
                     }
                 }
-                // Util.log("User: " + Util.getName(speaker) + " | Elapsed Since " + checkMessages + " Messages: " + elapsed + " | Gradient1: " + grad1);
+                 Util.log("User: " + Util.getName(speaker) + " | Elapsed Since " + checkMessages + " Messages: " + elapsed + " | Gradient1: " + grad1);
                 if (grad1 >= checkGrad1) {
                     // If the current gradient (velocity) is higher than the comparison gradient
                     if (userStatus[authorId] === 0) {
@@ -1699,29 +1699,29 @@ client.on('message', (msgObj) => {
                                 let checkGrad2 = sameGrad; // Initialise the comparison gradient as the sensitive gradient for if all messages are the same
                                 const newStamp = +new Date(); // Get the new current timestamp
                                 const latestMsg2 = nowStamps[0].message; // Get the most recent message's content
-                                // var origStamp2;
+                                 var origStamp2;
                                 for (let i = 0; i < nowStamps.length; i++) {
                                     // For each new message from latest
                                     const curStamp = nowStamps[i];
                                     const isFinal = curStamp.stamp === lastStamp; // Is it the oldest (excluded) message
                                     if (isFinal && stamp === lastStamp) break; // If so and the oldest message was also the original message (no new messages) then break
                                     numNew++; // Increase total message count
-                                    // origStamp2 = curStamp.stamp;
+                                     origStamp2 = curStamp.stamp;
                                     if (!Util.similarStrings(curStamp.message, latestMsg2)) checkGrad2 = muteGrad; // If messages are not the same use nkrmal gradient
                                     if (isFinal) break; // If it was the final message to check then break
                                 }
                                 if (numNew == 0) {
                                     // If they haven't sent any new messages
-                                    // Util.logc('AntiSpam1', `[2_] ${Util.getName(speaker)} stopped spamming and was put on alert`);
+                                     Util.logc('AntiSpam1', `[2_] ${Util.getName(speaker)} stopped spamming and was put on alert`);
                                     lastWarn[authorId] = newStamp; // Store the stamp for their last warning
                                     userStatus[authorId] = 2; // Set status to monitoring on high alert
                                     return; // Cancel
                                 }
-                                // let numNew2 = 0; // New var for counting messages
-                                // let elapsed2 = 0;
+                                 let numNew2 = 0; // New var for counting messages
+                                 let elapsed2 = 0;
                                 let grad2 = 0;
-                                // var elapsed2 = (newStamp-origStamp2)/1000;
-                                // var grad2 = (numNew/elapsed2)*10;
+                                 var elapsed2 = (newStamp-origStamp2)/1000;
+                                 var grad2 = (numNew/elapsed2)*10;
                                 for (let i = 2; i < numNew; i++) {
                                     // They must have sent at least 2 messages
                                     const curStamp = nowStamps[i].stamp; // Get now message time
@@ -1734,12 +1734,12 @@ client.on('message', (msgObj) => {
                                         // numNew2 = i + 1; // Set number of new messages as i+1
                                     }
                                 }
-                                // Util.logc(
-                                //     'AntiSpam1',
-                                //     `[2] User: ${Util.getName(
-                                //         speaker,
-                                //     )} | Messages Since ${elapsed2} Seconds: ${numNew2} | Gradient2: ${grad2}`,
-                                // );
+                                 Util.logc(
+                                     'AntiSpam1',
+                                     `[2] User: ${Util.getName(
+                                         speaker,
+                                     )} | Messages Since ${elapsed2} Seconds: ${numNew2} | Gradient2: ${grad2}`,
+                                 );
                                 if (grad2 >= checkGrad2) {
                                     // If gradient (velocity) is higher than checking gradient
                                     Util.logc(
@@ -1749,7 +1749,7 @@ client.on('message', (msgObj) => {
                                     Admin.addMute(guild, channel, speaker, 'System', { reason: '[Auto-Mute] Spamming' }); // Mute user
                                     userStatus[authorId] = 0; // Reset monitoring status to normal
                                 } else {
-                                    // Util.logc('AntiSpam1', `[2] ${Util.getName(speaker)} was put on alert`);
+                                     Util.logc('AntiSpam1', `[2] ${Util.getName(speaker)} was put on alert`);
                                     lastWarn[authorId] = newStamp; // Store the stamp for their last warning
                                     userStatus[authorId] = 2; // Set status to monitoring on high alert
                                 }
@@ -1763,7 +1763,7 @@ client.on('message', (msgObj) => {
                     }
                 } else if (userStatus[authorId] === 2 && stamp - lastWarn[authorId] > endAlert * 1000) {
                     // If it's been longer than the necessary monitoring time since their last warning
-                    // Util.logc('AntiSpam1', `[3] ${Util.getName(speaker)} ended their alert`);
+                     Util.logc('AntiSpam1', `[3] ${Util.getName(speaker)} ended their alert`);
                     userStatus[authorId] = 0; // Deem the user safe and reset their monitoring status to normal
                 }
             }
@@ -1794,7 +1794,7 @@ client.on('message', (msgObj) => {
         } else {
             msgObj.delete().catch(console.error);
             const intervalNum = exports.calmSpeed / 1000;
-            // var timeUntilSend = (exports.chatNext[guild.id] - nowTime) / 1000;
+             var timeUntilSend = (exports.chatNext[guild.id] - nowTime) / 1000;
             author
                 .send(
                     `Your message has been deleted. ${
@@ -1804,7 +1804,7 @@ client.on('message', (msgObj) => {
                 )
                 .catch(console.error);
         }
-        // exports.chatQueue[guild.id].push(msgObj);
+         exports.chatQueue[guild.id].push(msgObj);
     }
 
     if (!isRaidMode || isStaff) {
@@ -1817,7 +1817,7 @@ client.on('message', (msgObj) => {
 
         Events.emit(guild, 'MessageCreate', speaker, channel, msgObj, content);
 
-        // if (contentLower.includes('👀'.toLowerCase())) Util.print(channel, '👀');
+         if (contentLower.includes('👀'.toLowerCase())) Util.print(channel, '👀');
     }
 });
 
